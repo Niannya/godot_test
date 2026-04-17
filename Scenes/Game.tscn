@@ -1,0 +1,124 @@
+[gd_scene format=3 uid="uid://dsggfn1u1ve5u"]
+
+[ext_resource type="Texture2D" uid="uid://dvj8g13agso21" path="res://AssetBundle/Sprites/ForestBackground.png" id="1_iukft"]
+[ext_resource type="Script" uid="uid://dhmcjcnno7ts7" path="res://Scripts/GameManager.gd" id="1_kldst"]
+[ext_resource type="PackedScene" uid="uid://cgjj2bmatef67" path="res://Scenes/Player.tscn" id="2_gl6un"]
+[ext_resource type="PackedScene" uid="uid://dkepie3uuospc" path="res://Scenes/Slime.tscn" id="2_j5yw3"]
+[ext_resource type="FontFile" uid="uid://ccnrlus37gnj6" path="res://AssetBundle/Uranus_Pixel_11Px.ttf" id="5_b2bpf"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_gl6un"]
+distance = -0.6782837
+
+[node name="Node2D" type="Node2D" unique_id=484271367 node_paths=PackedStringArray("spawn_timer", "score_label", "game_over_label")]
+y_sort_enabled = true
+script = ExtResource("1_kldst")
+slime_scene = ExtResource("2_j5yw3")
+spawn_timer = NodePath("Timer")
+score_label = NodePath("CanvasLayer/Label")
+game_over_label = NodePath("CanvasLayer/GameOver")
+
+[node name="Background1" type="Sprite2D" parent="." unique_id=1978883111]
+position = Vector2(-120, 0)
+texture = ExtResource("1_iukft")
+metadata/_edit_lock_ = true
+
+[node name="Background2" type="Sprite2D" parent="." unique_id=1656333718]
+position = Vector2(120, 0)
+texture = ExtResource("1_iukft")
+metadata/_edit_lock_ = true
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1660935197]
+zoom = Vector2(2.39, 2.39)
+metadata/_edit_lock_ = true
+
+[node name="Boundary" type="Node2D" parent="." unique_id=753510667]
+metadata/_edit_lock_ = true
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Boundary" unique_id=355388784]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/StaticBody2D" unique_id=197609992]
+position = Vector2(-4, 135)
+shape = SubResource("WorldBoundaryShape2D_gl6un")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="Boundary" unique_id=921759922]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/StaticBody2D2" unique_id=964188937]
+position = Vector2(-240, 0)
+rotation = 1.5707964
+shape = SubResource("WorldBoundaryShape2D_gl6un")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Boundary" unique_id=301896314]
+position = Vector2(0, -14)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/StaticBody2D3" unique_id=1249176243]
+position = Vector2(-3, 44)
+rotation = 3.1415927
+shape = SubResource("WorldBoundaryShape2D_gl6un")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Boundary" unique_id=1250861058]
+position = Vector2(234.00003, -5)
+rotation = 0.004505236
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Boundary/StaticBody2D4" unique_id=734574832]
+position = Vector2(6.0359554, 7.972887)
+rotation = -1.5707964
+shape = SubResource("WorldBoundaryShape2D_gl6un")
+
+[node name="Player" parent="." unique_id=1955776342 instance=ExtResource("2_gl6un")]
+position = Vector2(-161, 84)
+
+[node name="Timer" type="Timer" parent="." unique_id=1470150228]
+wait_time = 3.0
+autostart = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=402194059]
+
+[node name="Label" type="Label" parent="CanvasLayer" unique_id=61277891]
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 164.0
+offset_bottom = 54.0
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 48
+text = "Score: 0"
+
+[node name="GameOver" type="Label" parent="CanvasLayer" unique_id=1475686658]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -77.0
+offset_top = -24.5
+offset_right = 77.0
+offset_bottom = 24.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0.7434564, 0.60347927, 1)
+theme_override_constants/outline_size = 60
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 120
+text = "Game Over!"
+
+[node name="GameOver2" type="Label" parent="CanvasLayer/GameOver" unique_id=1008088933]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -182.0
+offset_top = 73.0
+offset_right = 154.0
+offset_bottom = 122.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_outline_color = Color(0, 0.7434564, 0.60347927, 1)
+theme_override_constants/outline_size = 30
+theme_override_fonts/font = ExtResource("5_b2bpf")
+theme_override_font_sizes/font_size = 48
+text = "Game By Niannya"
+horizontal_alignment = 1
+
+[connection signal="timeout" from="Timer" to="." method="_spawn_slime"]
